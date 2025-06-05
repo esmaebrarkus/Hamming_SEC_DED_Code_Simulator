@@ -17,7 +17,6 @@ Bu proje, **tek hata düzeltme ve çift hata algılama (SEC-DED)** özelliğine 
 
 ## 🖼️ Arayüz Görselleri
 
-> `screenshot/` klasöründe bulunan ekran görüntüleri:
 
 ### Kodlanmış Veri
 ![Kodlanmış Veri](screenshot/kodlanmis_veri.png)
@@ -54,5 +53,4 @@ Projeyi çalışırken görmek istersen aşağıdaki bağlantıdan videoya göz 
 | `setButtons(enabled)` | Hata ekle ve hata tespit et butonlarının aktif/pasif olmasını kontrol eder. |
 
 ---
-
 
