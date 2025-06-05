@@ -6,12 +6,12 @@ Bu proje, **tek hata düzeltme ve çift hata algılama (SEC-DED)** özelliğine 
 
 ## 🚀 Özellikler
 
-- ✅ 8, 16 ve 32 bitlik giriş verilerini destekler  
-- 🔐 Hamming (SEC-DED) algoritmasıyla veri kodlama  
-- 🛠️ Manuel hata ekleme (tek bit)
-- 🧠 Hata tespiti ve otomatik düzeltme  
-- ❌ Çift hata algılama ve uyarı  
-- 👨‍💻 Tamamen HTML, CSS ve JavaScript ile yazılmıştır  
+-  8, 16 ve 32 bitlik giriş verilerini destekler  
+-  Hamming (SEC-DED) algoritmasıyla veri kodlama  
+-  Manuel hata ekleme (tek bit)
+-  Hata tespiti ve otomatik düzeltme  
+-  Çift hata algılama ve uyarı  
+-  Tamamen HTML, CSS ve JavaScript ile yazılmıştır  
 
 ---
 
