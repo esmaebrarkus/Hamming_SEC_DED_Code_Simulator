@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Hamming SEC-DED Simülatörü</title>
   <style>
+    /* Temel sayfa stili ve ortalama */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f0f2f5;
@@ -11,30 +12,38 @@
       padding: 30px;
       color: #333;
     }
+
+    /* İçerik kutusu */
     .container {
       max-width: 620px;
-      margin: auto;
+      margin: auto; /* Ortalamak için */
       background: #fff;
       padding: 28px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,.1);
     }
+
+    /* Başlık stilini ayarlıyorum */
     h2 {
       color: #007bff;
       text-align: center;
       margin-top: 0;
     }
+
+    /* Giriş ve buton stillerini ayarlıyorum */
     input, button {
       font-size: 16px;
       padding: 10px;
       margin: 6px 0;
       border-radius: 6px;
     }
+
     input {
       width: 100%;
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
+
     button {
       width: 32%;
       border: none;
@@ -42,10 +51,13 @@
       background: #007bff;
       cursor: pointer;
     }
+
     button:disabled {
       background: #8fb8f5;
       cursor: not-allowed;
     }
+
+    /* Çıktı kutusu */
     #output {
       margin-top: 18px;
       background: #f8f9fa;
@@ -60,38 +72,46 @@
   <div class="container">
     <h2>Hamming SEC-DED Simülatörü</h2>
 
+    <!-- Veri girişi -->
     <input id="inputData" placeholder="8, 16 veya 32 bit ikili veri (örn: 10110001)">
     <input id="errorBit" placeholder="Bozulacak bit (örn: 5)" title="Yalnızca tek bir bit girin.">
 
+    <!-- Butonlar -->
     <div style="display:flex;justify-content:space-between">
       <button onclick="encode()">Kodla</button>
       <button onclick="injectError()" id="manualErrorBtn" disabled>Hata Ekle</button>
       <button onclick="detectAndCorrect()" id="detectBtn" disabled>Hata Tespit Et</button>
     </div>
 
+    <!-- Çıktı alanı -->
     <div id="output"></div>
   </div>
 
   <script>
-    let originalData = "";
-    let encodedData  = [];
-    let receivedData = [];
+    // Global değişkenler
+    let originalData = "";    // Kullanıcının girdiği orijinal veri
+    let encodedData  = [];    // Kodlanmış veri (Hamming + parity)
+    let receivedData = [];    // Bozulmuş veri
 
+    // Hamming için gerekli parity bit sayısını hesaplar
     function calcParityCount(m) {
       let r = 0;
       while (Math.pow(2, r) < m + r + 2) r++;
       return r;
     }
 
+    // Butonları aktif/pasif yapar
     function setButtons(enabled) {
       document.getElementById("manualErrorBtn").disabled = !enabled;
       document.getElementById("detectBtn").disabled = !enabled;
     }
 
+    // Kodlama işlemi
     function encode() {
       const input = document.getElementById("inputData").value.trim();
       const output = document.getElementById("output");
 
+      // Geçersiz veri kontrolü
       if (![8, 16, 32].includes(input.length) || !/^[01]+$/.test(input)) {
         output.innerText = "⛔ Lütfen yalnızca 0-1 içeren 8, 16 veya 32 bit uzunlukta veri girin.";
         setButtons(false);
@@ -100,10 +120,11 @@
 
       originalData = input;
       const m = input.length;
-      const r = calcParityCount(m);
-      const n = m + r + 1;
-      encodedData = Array(n + 1).fill(0);
+      const r = calcParityCount(m);       // parity bit sayısı
+      const n = m + r + 1;                // toplam uzunluk (ekstra 1 genel parite için)
+      encodedData = Array(n + 1).fill(0); // 1 tabanlı dizi
 
+      // Veri bitlerini yerleştir (parity bit yerlerini atla)
       for (let i = 0, j = 1; i < m; j++) {
         if ((j & (j - 1)) !== 0 && j !== n) {
           encodedData[j] = Number(input[i]);
@@ -111,6 +132,7 @@
         }
       }
 
+      // Parity bitlerini hesapla ve yerleştir
       for (let i = 0; i < r; i++) {
         const p = 1 << i;
         let par = 0;
@@ -118,19 +140,23 @@
         encodedData[p] = par;
       }
 
+      // Genel parity bitini hesapla
       let overall = 0;
       for (let j = 1; j < n; j++) overall ^= encodedData[j];
       encodedData[n] = overall;
 
+      // Şimdilik gönderilen veri orijinalin aynısı
       receivedData = encodedData.slice();
       output.innerText = `✔️ Kodlanmış veri (${n} bit):\n${encodedData.slice(1).join("")}`;
       setButtons(true);
     }
 
+    // Hata ekleme işlemi
     function injectError() {
       const errorInput = document.getElementById("errorBit").value.trim();
       const output = document.getElementById("output");
 
+      // Sayı kontrolü
       if (!/^\d+$/.test(errorInput)) {
         output.innerText += "\n⛔ Lütfen yalnızca tek bir bozulacak bit numarası girin (örn: 5)";
         return;
@@ -142,16 +168,19 @@
         return;
       }
 
+      // Biti tersliyorum
       receivedData[bit] ^= 1;
       output.innerText += `\n⚠️ ${bit}. bit bozuldu.\nSonuç:\n${receivedData.slice(1).join("")}`;
     }
 
+    // Hata tespiti ve düzeltme
     function detectAndCorrect() {
       const m = originalData.length;
       const r = calcParityCount(m);
       const n = m + r + 1;
       const output = document.getElementById("output");
 
+      // Hamming sendromu hesaplama
       let syndrome = 0;
       for (let i = 0; i < r; i++) {
         const p = 1 << i;
@@ -160,9 +189,11 @@
         if (par) syndrome += p;
       }
 
+      // Genel parity kontrolü
       let overall = 0;
       for (let j = 1; j <= n; j++) overall ^= receivedData[j];
 
+      // Karar yapısı
       let result = "";
       if (syndrome === 0 && overall === 0) {
         result = `✅ Hata yok. Veri doğru:\n${receivedData.slice(1).join("")}`;

@@ -20,19 +20,19 @@ Bu proje, **tek hata düzeltme ve çift hata algılama (SEC-DED)** özelliğine 
 > `screenshot/` klasöründe bulunan ekran görüntüleri:
 
 ### Kodlanmış Veri
-![Kodlanmış Veri](screenshot/kodlanmış_veri.png)
+![Kodlanmış Veri](screenshot/kodlanmis_veri.png)
 
 ### Hata Eklendi
 ![Hata Eklendi](screenshot/hata_eklendi.png)
 
 ### Düzeltme Sonucu
-![Düzeltilmiş Veri](screenshot/düzeltilmiş_veri.png)
+![Düzeltilmiş Veri](screenshot/duzeltilmis_veri.png)
 
 ### Arayüz Genel Görünüm
-![Arayüz](screenshot/arayüz.png)
+![Arayüz](screenshot/arayuz.png)
 
 ### Hatalı Veri Girişi Uyarısı
-![Hatalı Veri Girişi](screenshot/hatalı_veri_girişi.png)
+![Hatalı Veri Girişi](screenshot/hatali_veri_girisi.png)
 
 ---
 
@@ -55,8 +55,4 @@ Projeyi çalışırken görmek istersen aşağıdaki bağlantıdan videoya göz 
 
 ---
 
-## 🛠️ Kullanım
 
-1. Bu projeyi klonla veya indir:
-   ```bash
-   git clone https://github.com/kullanici-adi/proje-adi.git
